@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FF Mobile Optimizer</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;padding:20px;
+  font-family:Arial,sans-serif;
+  background:#0b1020;color:white
+}
+.app{
+  max-width:460px;margin:auto;
+  padding:22px;border-radius:18px;
+  background:#182238
+}
+h1{color:#56ff9a;font-size:27px}
+p{color:#c6d0df;line-height:1.5}
+.card{
+  background:#222f48;padding:15px;
+  border-radius:12px;margin:14px 0
+}
+button{
+  width:100%;padding:13px;margin-top:10px;
+  border:0;border-radius:9px;
+  background:#56ff9a;color:#07150d;
+  font-weight:bold;font-size:16px
+}
+.secondary{background:#354560;color:white}
+label{display:block;margin-top:18px}
+input[type=range]{width:100%;accent-color:#56ff9a}
+.result{color:#56ff9a;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="app">
+<h1>🎮 FF Mobile Optimizer</h1>
+<p>Telefoningizni o‘yin oldidan tayyorlash uchun yordamchi.</p>
+
+<div class="card">
+<h3>📱 Qurilma holati</h3>
+<p id="device">Tavsiya: o‘yin oldidan keraksiz ilovalarni yoping.</p>
+<button onclick="check()">🔍 Tekshirish</button>
+</div>
+
+<div class="card">
+<h3>⚡ Tezkor tayyorgarlik</h3>
+<p>Quyidagi ishlarni qo‘lda bajaring:</p>
+<label><input type="checkbox"> Keraksiz ilovalarni yoping</label>
+<label><input type="checkbox"> Batareya quvvatini tekshiring</label>
+<label><input type="checkbox"> Barqaror Wi-Fi yoki mobil internetni tanlang</label>
+<label><input type="checkbox"> O‘yindagi grafikani moslang</label>
+<button class="secondary" onclick="tips()">📋 Tavsiyalar</button>
+<p id="tips"></p>
+</div>
+
+<div class="card">
+<h3>🎯 Sensitivity yordamchisi</h3>
+<label>General: <span id="v1" class="result">100</span></label>
+<input id="s1" type="range" min="0" max="200" value="100"
+oninput="v1.textContent=this.value">
+
+<label>Red Dot: <span id="v2" class="result">90</span></label>
+<input id="s2" type="range" min="0" max="200" value="90"
+oninput="v2.textContent=this.value">
+
+<label>2x Scope: <span id="v3" class="result">85</span></label>
+<input id="s3" type="range" min="0" max="200" value="85"
+oninput="v3.textContent=this.value">
+
+<button onclick="save()">💾 Sozlamalarni saqlash</button>
+<button class="secondary" onclick="load()">📂 Saqlanganini yuklash</button>
+<p id="status"></p>
+</div>
+
+<p>⚠️ Bu dastur telefon tizimi yoki Free Fire fayllarini
+o‘zgartirmaydi. Natija qurilmaga qarab farq qiladi.</p>
+</div>
+
+<script>
+function check(){
+  document.getElementById("device").textContent =
+  "Brauzer ishlayapti. Keraksiz ilovalarni yoping va telefon qizib ketmaganini tekshiring.";
+}
+function tips(){
+  document.getElementById("tips").textContent =
+  "Telefonni zaryadlang, barqaror internetdan foydalaning, grafikani moslang va telefon qizisa tanaffus qiling.";
+}
+function save(){
+  const data = {
+    general:s1.value,
+    redDot:s2.value,
+    scope2:s3.value
+  };
+  try{
+    localStorage.setItem("ffMobileSettings",JSON.stringify(data));
+    status.textContent="✅ Sozlamalar saqlandi!";
+  }catch(e){
+    status.textContent="Saqlash amalga oshmadi.";
+  }
+}
+function load(){
+  try{
+    const d=JSON.parse(localStorage.getItem("ffMobileSettings"));
+    if(!d){status.textContent="Avval sozlamalarni saqlang.";return;}
+    s1.value=d.general;
+    s2.value=d.redDot;
+    s3.value=d.scope2;
+    v1.textContent=s1.value;
+    v2.textContent=s2.value;
+    v3.textContent=s3.value;
+    status.textContent="✅ Sozlamalar yuklandi!";
+  }catch(e){
+    status.textContent="Ma'lumotni yuklashda xatolik.";
+  }
+}
+</script>
+</body>
+</html>
